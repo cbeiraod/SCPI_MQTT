@@ -1,0 +1,27 @@
+import pyvisa
+import sys
+
+def main() -> int:
+    rm = pyvisa.ResourceManager()
+
+    resources = rm.list_resources()
+
+    for id in resources:
+        inst = rm.open_resource(id)
+
+        idn = inst.query("*IDN?")
+        manufacturer, model, serial, firmware = idn.split(',')
+
+        print(id)
+        print(f"\tManufacturer: {manufacturer}")
+        print(f"\tModel: {model}")
+        print(f"\tSerial: {serial}")
+        print(f"\tFirmware Revision: {firmware}")
+        #print(f"{id}: {idn}")
+
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main())  # next section explains the use of sys.exit
+

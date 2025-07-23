@@ -1,0 +1,40 @@
+{
+  "instruments": [
+    {
+      "type": "Keithley2470",
+      "name": "smu_1",
+      "serial_number": "04644460",
+      "config": {
+        "off_state": "normal",
+        "terminals": "front",
+        "source": "voltage",
+        "source_limit": 240,
+        "source_range": 1000,
+        "voltage_range": 250,
+        "current_range": 20,
+        "remote_sense": false,
+        "compliance_voltage": 12,
+        "compliance_current": 25,
+        "precision": 12
+      }
+    },
+    {
+      "type": "Keithley2470",
+      "name": "smu_2",
+      "serial_number": "04448308",
+      "config": {
+        "off_state": "normal",
+        "terminals": "front",
+        "source": "voltage",
+        "source_limit": 210,
+        "source_range": 1000,
+        "voltage_range": 250,
+        "current_range": 2000,
+        "remote_sense": false,
+        "compliance_voltage": 12,
+        "compliance_current": 200,
+        "precision": 12
+      }
+    }
+  ]
+}

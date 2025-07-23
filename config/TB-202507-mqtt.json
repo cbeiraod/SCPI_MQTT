@@ -1,0 +1,6 @@
+{
+  "broker": "bl4s-rpi-05.cern.ch",
+  "port": 1883,
+  "readings_topic": "power",
+  "control_topic": "instrument_control"
+}

@@ -1,0 +1,6 @@
+{
+  "broker": "localhost",
+  "port": 1883,
+  "readings_topic": "readings",
+  "control_topic": "control"
+}

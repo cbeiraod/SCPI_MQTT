@@ -197,7 +197,7 @@ class Keithley2470(Instrument):
                 overvoltage = "NONE"
             else:
                 overvoltage = overvoltage.upper()
-            resource.write(f"SOUR:VOLT:PROT {overvoltage}")
+            self.resource.write(f"SOUR:VOLT:PROT {overvoltage}")
 
             # Off State
             off_state = find_SCPI(supply_config, 'off_state', off_state_SCPI, 'NORM')

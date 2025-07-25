@@ -13,7 +13,6 @@
         "voltage_range": 250,
         "current_range": 20,
         "remote_sense": false,
-        "compliance_voltage": 12,
         "compliance_current": 25,
         "precision": 12
       }
@@ -29,11 +28,29 @@
         "source_limit": 210,
         "source_range": 1000,
         "voltage_range": 250,
-        "current_range": 2000,
+        "current_range": 9000,
         "remote_sense": false,
-        "compliance_voltage": 12,
-        "compliance_current": 200,
+        "compliance_current": 9000,
         "precision": 12
+      }
+    },
+    {
+      "type": "TTiPL303QMDP",
+      "name": "psu_1",
+      "serial_number": "410453",
+      "config": {
+        "channels": {
+          "CH1": {
+            "current_range": "HIGH",
+            "current": 0.9,
+            "voltage": 4.5
+          },
+          "CH2": {
+            "current_range": "HIGH",
+            "current": 0.9,
+            "voltage": 4.5
+          }
+        }
       }
     }
   ]

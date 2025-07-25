@@ -11,6 +11,7 @@ python -m pip install zeroconf
 python -m pip install usb
 python -m pip install pyusb
 python -m pip install paho-mqtt
+python -m pip install pyserial
 
 
 As su:

@@ -1,12 +1,17 @@
 import pyvisa
 import sys
 
+device_specific_skip = ['ASRL/dev/ttyS0::INSTR', 'ASRL/dev/ttyAMA0::INSTR']
+
 def main() -> int:
     rm = pyvisa.ResourceManager()
 
     resources = rm.list_resources()
 
     for id in resources:
+        if id in device_specific_skip:
+            continue
+
         inst = rm.open_resource(id)
 
         idn = inst.query("*IDN?")

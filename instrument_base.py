@@ -26,7 +26,7 @@ class Instrument(ABC):
 
     def __init__(self, config: Dict[str, Any], resource, logger):
         self.name = config['name']
-        self.serial_number = config['serial_number']
+        self.serial_number = config['serial_number'].strip()
         self.config = config
         self.resource = resource
         self.logger = logger
@@ -35,12 +35,12 @@ class Instrument(ABC):
         idn = self.resource.query("*IDN?").strip()
         manufacturer,model,serial,firmware = idn.split(',')
 
-        if self.serial_number != serial:
-            raise RuntimeError(f"The serial n umber in the config ({self.serial_number}) does not match the serial number of the instrument ({serial})")
+        if self.serial_number != serial.strip():
+            raise RuntimeError(f"The serial number in the config ({self.serial_number}) does not match the serial number of the instrument ({serial})")
 
-        self.manufacturer = manufacturer
-        self.model = model
-        self.firmware = firmware
+        self.manufacturer = manufacturer.strip()
+        self.model = model.strip()
+        self.firmware = firmware.strip()
 
     @abstractmethod
     def reset(self) -> None:

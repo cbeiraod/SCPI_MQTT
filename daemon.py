@@ -12,6 +12,7 @@ from keithley_2470 import Keithley2470
 from keithley_2410 import Keithley2410
 from tti_PL303QMDP import TTiPL303QMDP
 from mqtt_handler import MQTTHandler
+from threading import Lock
 
 INSTRUMENT_CLASSES = {
     "Keithley2470": Keithley2470,
@@ -20,6 +21,7 @@ INSTRUMENT_CLASSES = {
 }
 
 
+time_lock = Lock()
 
 def find_matching_resource(resource_manager, instrument: Dict[str, Any]) -> str:
 
@@ -80,6 +82,12 @@ def print_readings(instruments: Dict[str, Instrument]):
         log.info(f"{name}: readings={readings}, set_values={set_vals}")
 
 
+# For dynamic interval setting
+changed_interval = False
+change_time = time.time()
+next_time = time.time()
+interval = 60
+
 def handle_mqtt(msg, instruments):
     """
     Handle incoming MQTT control messages and apply commands to instruments.
@@ -95,7 +103,13 @@ def handle_mqtt(msg, instruments):
     instruments : dict
         Dictionary mapping instrument names to instrument instances.
     """
+    global interval
+    global next_time
+    global change_time
+    global changed_interval
+
     try:
+        log.debug("Got message:", msg)
         topic_parts = msg.topic.split("/")
         if len(topic_parts) < 3:
             return  # Not a valid topic
@@ -118,6 +132,14 @@ def handle_mqtt(msg, instruments):
         except json.JSONDecodeError:
             log.warning(f"Invalid payload for topic {msg.topic}: {msg.payload}")
             return
+
+        log.debug("Trying to process command:", command)
+
+        with time_lock:
+            interval = 1
+            changed_interval = True
+            change_time = time.time()
+            next_time = time.time()
 
         # Route command
         if command == "set_voltage":
@@ -144,6 +166,8 @@ def handle_mqtt(msg, instruments):
         else:
             log.error(f"Unknown command: {command}")
 
+        log.debug("Done processing command:", command)
+
     except Exception as e:
         log.error(f"Error handling MQTT message: {e}")
 
@@ -152,7 +176,14 @@ def handle_mqtt(msg, instruments):
 stop_event = threading.Event()
 
 def measurement_loop(arguments):
+    global interval
+    global next_time
+    global change_time
+    global changed_interval
+
     args = arguments
+    native_interval = args.interval
+    interval = native_interval
 
     rm = pyvisa.ResourceManager()
     instruments = load_instruments(args.config, rm, args.do_reset, args.do_config)
@@ -169,9 +200,11 @@ def measurement_loop(arguments):
         mqtt_handler = MQTTHandler(mqtt_config)
         mqtt_handler.connect(on_message=lambda c, u, msg: handle_mqtt(msg, instruments))
         for name in instruments:
+            #log.debug("Subscribing to:", f"{mqtt_handler.control_topic}/{name}/#")
             mqtt_handler.subscribe(f"{mqtt_handler.control_topic}/{name}/#")
 
-    next_time = time.time()
+    with time_lock:
+        next_time = time.time()
 
     while not stop_event.is_set():
         for name, inst in instruments.items():
@@ -183,7 +216,12 @@ def measurement_loop(arguments):
             else:
                 log.info(f"{name}: {payload}")
 
-        next_time += args.interval
+        with time_lock:
+            next_time += interval
+            if changed_interval and time.time() - change_time > 30:
+                changed_interval = False
+                interval = native_interval
+
         while not stop_event.is_set() and time.time() < next_time:
             time.sleep(0.01)
 
@@ -193,7 +231,7 @@ def main():
     parser = argparse.ArgumentParser(description="Instrument Daemon")
     parser.add_argument("--config", required=True, help="Path to instrument JSON")
     parser.add_argument("--mqtt", help="Path to MQTT config JSON")
-    parser.add_argument("--interval", type=int, default=1, help="Polling interval (s)")
+    parser.add_argument("--interval", type=int, default=5, help="Polling interval (s)")
     parser.add_argument("--single-shot", action="store_true", help="Single shot mode")
     parser.add_argument("--do-reset", action="store_true", help="Reset the instruments on connect")
     parser.add_argument("--do-config", action="store_true", help="Config the instruments on connect")

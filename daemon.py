@@ -235,7 +235,7 @@ def main():
     parser = argparse.ArgumentParser(description="Instrument Daemon")
     parser.add_argument("--config", required=True, help="Path to instrument JSON")
     parser.add_argument("--mqtt", help="Path to MQTT config JSON")
-    parser.add_argument("--interval", type=int, default=5, help="Polling interval (s)")
+    parser.add_argument("--interval", type=int, default=10, help="Polling interval (s)")
     parser.add_argument("--single-shot", action="store_true", help="Single shot mode")
     parser.add_argument("--do-reset", action="store_true", help="Reset the instruments on connect")
     parser.add_argument("--do-config", action="store_true", help="Config the instruments on connect")

@@ -22,6 +22,7 @@ INSTRUMENT_CLASSES = {
 
 
 time_lock = Lock()
+device_specific_skip = ['ASRL/dev/ttyS0::INSTR', 'ASRL/dev/ttyAMA0::INSTR']
 
 def find_matching_resource(resource_manager, instrument: Dict[str, Any]) -> str:
 
@@ -36,6 +37,9 @@ def find_matching_resource(resource_manager, instrument: Dict[str, Any]) -> str:
     #  Use serial number matching
     serial_number: str = instrument['serial_number']
     for resource in resource_manager.list_resources():
+        if resource in device_specific_skip:
+            continue
+
         try:
             inst = resource_manager.open_resource(resource)
 

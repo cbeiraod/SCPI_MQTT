@@ -109,7 +109,7 @@ def handle_mqtt(msg, instruments):
     global changed_interval
 
     try:
-        log.debug("Got message:", msg)
+        log.debug(f"Got message: {msg}")
         topic_parts = msg.topic.split("/")
         if len(topic_parts) < 3:
             return  # Not a valid topic
@@ -133,7 +133,7 @@ def handle_mqtt(msg, instruments):
             log.warning(f"Invalid payload for topic {msg.topic}: {msg.payload}")
             return
 
-        log.debug("Trying to process command:", command)
+        log.debug(f"Trying to process command: {command}")
 
         with time_lock:
             interval = 1
@@ -166,7 +166,7 @@ def handle_mqtt(msg, instruments):
         else:
             log.error(f"Unknown command: {command}")
 
-        log.debug("Done processing command:", command)
+        log.debug(f"Done processing command: {command}")
 
     except Exception as e:
         log.error(f"Error handling MQTT message: {e}")
@@ -235,6 +235,7 @@ def main():
     parser.add_argument("--single-shot", action="store_true", help="Single shot mode")
     parser.add_argument("--do-reset", action="store_true", help="Reset the instruments on connect")
     parser.add_argument("--do-config", action="store_true", help="Config the instruments on connect")
+    parser.add_argument("--debug", action="store_true", help="Enable debugging info")
     args = parser.parse_args()
 
     # === Logging Setup ===
@@ -244,6 +245,8 @@ def main():
     )
     global log
     log = logging.getLogger(__name__)
+    if args.debug:
+        log.setLevel(logging.DEBUG)
 
     # === Graceful Shutdown Handling ===
     def _handle_signal(sig, frame):

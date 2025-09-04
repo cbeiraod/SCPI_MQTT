@@ -204,7 +204,7 @@ def measurement_loop(arguments):
         mqtt_handler = MQTTHandler(mqtt_config)
         mqtt_handler.connect(on_message=lambda c, u, msg: handle_mqtt(msg, instruments))
         for name in instruments:
-            #log.debug("Subscribing to:", f"{mqtt_handler.control_topic}/{name}/#")
+            log.debug(f"Subscribing to: {mqtt_handler.control_topic}/{name}/#")
             mqtt_handler.subscribe(f"{mqtt_handler.control_topic}/{name}/#")
 
     with time_lock:

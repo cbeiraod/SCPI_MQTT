@@ -1,0 +1,23 @@
+{
+  "instruments": [
+    {
+      "type": "TTiPL303QMDP",
+      "name": "psu_1",
+      "serial_number": "500795",
+      "config": {
+        "channels": {
+          "CH1": {
+            "current_range": "HIGH",
+            "current": 1,
+            "voltage": 12
+          },
+          "CH2": {
+            "current_range": "HIGH",
+            "current": 1.6,
+            "voltage": 4.5
+          }
+        }
+      }
+    }
+  ]
+}

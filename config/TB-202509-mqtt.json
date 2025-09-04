@@ -1,0 +1,6 @@
+{
+  "broker": "pps-rp4-fg.cern.ch",
+  "port": 1883,
+  "readings_topic": "power",
+  "control_topic": "instrument_control"
+}

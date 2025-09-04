@@ -2,6 +2,8 @@ from instrument_base import Instrument
 from typing import Dict, Any
 from threading import Lock
 
+from utilities import find_SCPI
+
 off_state_SCPI = {
     "NORM" : ["normal", "norm"],
     "ZERO" : ["zero"],
@@ -23,16 +25,6 @@ voltage_protection_SCPI = ["PROT20", "PROT40", "PROT100", "PROT200", "PROT300", 
 
 voltage_ranges = [0.2, 2, 20, 200, 1000] # in V units
 current_ranges = [0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000]  # in uA units
-
-def find_SCPI(config, name, SCPI_dict, default = None):
-    command = config.get(name, default)
-    for key in SCPI_dict:
-        processed_command = command
-        if isinstance(processed_command, str):
-            processed_command = processed_command.lower()
-        if processed_command in SCPI_dict[key]:
-            return key
-    return default
 
 
 class Keithley2470(Instrument):

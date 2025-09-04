@@ -1,6 +1,8 @@
 from instrument_base import Instrument
 from typing import Dict, Any
 
+from utilities import find_SCPI
+
 class Keithley2410(Instrument):
     """Handler for Keithley 2410.
 

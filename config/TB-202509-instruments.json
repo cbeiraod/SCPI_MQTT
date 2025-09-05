@@ -27,19 +27,19 @@
         "channels": {
           "CH0": {
             "current": 0.00002,
-            "voltage": -240,
+            "voltage": -240
           },
           "CH1": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           },
           "CH2": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           },
           "CH3": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           }
         }
       }
@@ -52,19 +52,19 @@
         "channels": {
           "CH0": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           },
           "CH1": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           },
           "CH2": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           },
           "CH3": {
             "current": 0.00001,
-            "voltage": -2,
+            "voltage": -2
           }
         }
       }

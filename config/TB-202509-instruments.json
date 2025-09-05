@@ -18,6 +18,56 @@
           }
         }
       }
+    },
+    {
+      "type": "ISEGSHR",
+      "name": "psu_2",
+      "serial_number": "2300766",
+      "config": {
+        "channels": {
+          "CH0": {
+            "current": 0.00002,
+            "voltage": -240,
+          },
+          "CH1": {
+            "current": 0.00001,
+            "voltage": -2,
+          },
+          "CH2": {
+            "current": 0.00001,
+            "voltage": -2,
+          },
+          "CH3": {
+            "current": 0.00001,
+            "voltage": -2,
+          }
+        }
+      }
+    },
+    {
+      "type": "ISEGSHR",
+      "name": "psu_3",
+      "serial_number": "2300754",
+      "config": {
+        "channels": {
+          "CH0": {
+            "current": 0.00001,
+            "voltage": -2,
+          },
+          "CH1": {
+            "current": 0.00001,
+            "voltage": -2,
+          },
+          "CH2": {
+            "current": 0.00001,
+            "voltage": -2,
+          },
+          "CH3": {
+            "current": 0.00001,
+            "voltage": -2,
+          }
+        }
+      }
     }
   ]
 }

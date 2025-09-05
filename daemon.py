@@ -41,6 +41,7 @@ def find_matching_resource(resource_manager, instrument: Dict[str, Any]) -> str:
             continue
 
         try:
+            log.debug(f"Processing resource: {resource}")
             inst = resource_manager.open_resource(resource)
 
             # Configure some options
@@ -50,9 +51,10 @@ def find_matching_resource(resource_manager, instrument: Dict[str, Any]) -> str:
             if 'write_termination' in instrument:
                 inst.write_termination = instrument['write_termination']
 
-            #tmp = inst.read()
-            #print(tmp)
             idn = inst.query("*IDN?").strip()
+            if idn == '*IDN?':
+                idn = inst.read().strip()
+            log.debug(f"Got *IDN? response: {idn}")
             manufacturer,model,serial,firmware = idn.split(',')
             if serial_number == serial.strip():
                 return inst

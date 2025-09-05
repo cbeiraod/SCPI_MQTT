@@ -33,6 +33,8 @@ class Instrument(ABC):
 
 
         idn = self.resource.query("*IDN?").strip()
+        if idn == "*IDN?":
+            idn = self.resource.read().strip()
         manufacturer,model,serial,firmware = idn.split(',')
 
         if self.serial_number != serial.strip():

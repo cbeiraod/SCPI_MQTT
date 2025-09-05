@@ -63,12 +63,8 @@ class ISEGSHR(Instrument):
         readings = {}
         with self.mutex_lock:
             for ch in channel_map:
-                tmp = self.resource.query(f":MEAS:VOLT? (@{channel_map[ch]})")
-                print(tmp)
-                tmp = self.resource.read()
-                print(tmp)
-                voltage = float(tmp.strip()[:-1])
-                #voltage = float(self.resource.read().strip()[:-1])
+                self.resource.query(f":MEAS:VOLT? (@{channel_map[ch]})")
+                voltage = float(self.resource.read().strip()[:-1])
                 self.resource.query(f":MEAS:CURR? (@{channel_map[ch]})")
                 current = float(self.resource.read().strip()[:-1])
                 self.resource.query(f":READ:VOLT:ON? (@{channel_map[ch]})")

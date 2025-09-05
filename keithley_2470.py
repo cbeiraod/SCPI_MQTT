@@ -60,6 +60,8 @@ class Keithley2470(Instrument):
     def reset(self) -> None:
         """Reset the instrument."""
         with self.mutex_lock:
+            # Turn off the output and then reset
+            self.resource.write("OUTP OFF")
             self.resource.write("*CLS")
             self.resource.write("*RST")
 
@@ -86,6 +88,7 @@ class Keithley2470(Instrument):
         with self.mutex_lock:
             # Turn off the output and then reset the state
             self.resource.write("OUTP OFF")
+            self.resource.write("*CLS")
             self.resource.write("*RST")
             self.resource.write("SYST:CLE")
 

@@ -41,6 +41,7 @@ class TTiPL303QMDP(Instrument):
     def reset(self) -> None:
         """Reset the instrument."""
         with self.mutex_lock:
+            self.resource.write("OPALL 0")
             self.resource.write("*CLS")
             self.resource.write("*RST")
             self.resource.write("TRIPRST")

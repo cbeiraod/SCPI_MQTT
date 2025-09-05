@@ -11,6 +11,7 @@ from instrument_base import Instrument
 from keithley_2470 import Keithley2470
 from keithley_2410 import Keithley2410
 from tti_PL303QMDP import TTiPL303QMDP
+from iseg_SHR import ISEGSHR
 from mqtt_handler import MQTTHandler
 from threading import Lock
 
@@ -18,6 +19,7 @@ INSTRUMENT_CLASSES = {
     "Keithley2470": Keithley2470,
     "Keithley2410": Keithley2410,
     "TTiPL303QMDP": TTiPL303QMDP,
+    "ISEGSHR": ISEGSHR,
 }
 
 

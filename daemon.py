@@ -169,6 +169,9 @@ def handle_mqtt(msg, instruments):
                     instrument.configure()
             else:
                 instrument.configure(value)
+        elif command == "reset":
+            if value != 0:
+                instrument.reset()
         else:
             log.error(f"Unknown command: {command}")
 
